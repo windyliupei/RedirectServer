@@ -22,7 +22,6 @@ namespace Service
         public static void Main(string[] args)
         {
             LoadSettings();
-            
 
             StartLisen();
 
