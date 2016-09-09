@@ -380,7 +380,7 @@ namespace Service
                     string info = Encoding.UTF8.GetString(e.Buffer, e.Offset, e.BytesTransferred);
                     //Log4Debug(String.Format("收到 {0} 数据为 {1}", sock.RemoteEndPoint.ToString(), info));
 
-                    Send(userToken.SendEventArgs, e.Buffer,e.BytesTransferred);
+                    Send(userToken.SendEventArgs, e.Buffer,e.BytesTransferred); 
                 }
                 //TODO:Cannot access a disposed object.Object name: 'System.Net.Sockets.Socket'.
                 try
