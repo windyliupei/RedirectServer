@@ -260,11 +260,12 @@ namespace Service
         #region 发送数据
 
         /// <summary>
-        /// 异步的发送数据
+        ///异步的发送数据 
         /// </summary>
         /// <param name="e"></param>
         /// <param name="data"></param>
-        public void Send(SocketAsyncEventArgs e, byte[] data)
+        /// <param name="bytesTransferred">实际数据长度</param>
+        public void Send(SocketAsyncEventArgs e, byte[] data,int bytesTransferred)
         {
             AsyncUserToken userToken = e.UserToken as AsyncUserToken;
             userToken.SendBuffer.WriteBuffer(data, 0, data.Length);//写入要发送的数据
@@ -276,7 +277,8 @@ namespace Service
                     //userToken.SendEventArgs.SetBuffer(userToken.SendBuffer.Buffer,0,userToken.SendBuffer.DataCount);
 
                     Array.Copy(data, 0, e.Buffer, 0, data.Length);//设置发送数据
-
+                    //如果结果为false则同步发送。
+                    e.SetBuffer(0, bytesTransferred);
                     if (!userToken.ConnectSocket.SendAsync(userToken.SendEventArgs))//投递发送请求，这个函数有可能同步发送出去，这时返回false，并且不会引发SocketAsyncEventArgs.Completed事件
                     {
                         // 同步发送时处理发送完成事件
@@ -378,7 +380,7 @@ namespace Service
                     string info = Encoding.UTF8.GetString(e.Buffer, e.Offset, e.BytesTransferred);
                     //Log4Debug(String.Format("收到 {0} 数据为 {1}", sock.RemoteEndPoint.ToString(), info));
 
-                    Send(userToken.SendEventArgs, e.Buffer);
+                    Send(userToken.SendEventArgs, e.Buffer,e.BytesTransferred);
                 }
                 //TODO:Cannot access a disposed object.Object name: 'System.Net.Sockets.Socket'.
                 try
