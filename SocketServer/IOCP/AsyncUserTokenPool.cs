@@ -1,7 +1,7 @@
 using System;
 using System.Collections.Generic;
 
-namespace Service
+namespace Service.IOCP
 {
     /// <summary>
     /// AsyncUserToken对象池（固定缓存设计）

@@ -12,23 +12,25 @@
     "Microsoft.Extensions.Configuration.Json": "1.0.0-rc2-final",
     "System.Text.Encoding": "4.0.11",
     "System.Text.Encoding.CodePages": "4.0.1",
-    "System.Net.Sockets":"4.1.0.0"
+    "System.Net.Sockets":"4.1.0.0",
+    "DataAccess":"1.0.0"
     },
   "frameworks": {
     "netcoreapp1.0": {
       "dependencies": {
         "Microsoft.NETCore.App": {
-         
+           "type": "platform",
           "version": "1.0.0"
         }
       },
       "imports": "dnxcore50"
-    }
-  },
-  "runtimes": {
-       //"win7-x64": {},
-       //"win10-x64": {},
-       "osx.10.10-x64": {},
-       "centos.7-x64":{}
-     }
+    } 
+  }
+  //,
+  // "runtimes": {
+  //      "win7-x64": {},
+  //      //"win10-x64": {},
+  //      "osx.10.10-x64": {},
+  //      "centos.7-x64":{}
+  //    }
 }

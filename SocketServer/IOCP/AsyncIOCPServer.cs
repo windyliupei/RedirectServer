@@ -3,8 +3,9 @@ using System.Net;
 using System.Net.Sockets;
 using System.Text;
 using System.Threading;
+using DataAccess;
 
-namespace Service
+namespace Service.IOCP
 {
     public class AsyncIOCPServer
     {
@@ -265,7 +266,7 @@ namespace Service
         /// <param name="e"></param>
         /// <param name="data"></param>
         /// <param name="bytesTransferred">实际数据长度</param>
-        public void Send(SocketAsyncEventArgs e, byte[] data,int bytesTransferred)
+        public void Send(SocketAsyncEventArgs e, byte[] data, int bytesTransferred)
         {
             AsyncUserToken userToken = e.UserToken as AsyncUserToken;
             userToken.SendBuffer.WriteBuffer(data, 0, data.Length);//写入要发送的数据
@@ -380,7 +381,7 @@ namespace Service
                     string info = Encoding.UTF8.GetString(e.Buffer, e.Offset, e.BytesTransferred);
                     //Log4Debug(String.Format("收到 {0} 数据为 {1}", sock.RemoteEndPoint.ToString(), info));
 
-                    Send(userToken.SendEventArgs, e.Buffer,e.BytesTransferred); 
+                    Send(userToken.SendEventArgs, e.Buffer, e.BytesTransferred);
                 }
                 //TODO:Cannot access a disposed object.Object name: 'System.Net.Sockets.Socket'.
                 try
@@ -393,10 +394,10 @@ namespace Service
                 }
                 catch (ObjectDisposedException oex)
                 {
-                    Console.WriteLine("Client was closed:"+oex.Message);
+                    Console.WriteLine("Client was closed:" + oex.Message);
                     CloseClientSocket(userToken);
                 }
-               
+
             }
             else
             {
@@ -427,9 +428,9 @@ namespace Service
                     case SocketAsyncOperation.Receive:
                         ProcessReceive(e);
                         break;
-                    //case SocketAsyncOperation.Send:
-                    //    ProcessSend(e);
-                    //    break;
+                        //case SocketAsyncOperation.Send:
+                        //    ProcessSend(e);
+                        //    break;
 
                 }
             }
@@ -512,6 +513,21 @@ namespace Service
         public void Log4Debug(string msg)
         {
             Console.WriteLine("notice:" + msg);
+        }
+
+        //TODO:Move to Message process class.
+        private string GetEncryptString(string macId)
+        {
+            CouchbaseAccess couBase = new CouchbaseAccess();
+            var encryptString = couBase.GepEncryptString(macId);
+
+            if(string.IsNullOrEmpty(encryptString))
+            {
+                MsSqlAccess msSql = new MsSqlAccess();
+                encryptString = msSql.GepEncryptString(macId);
+            }
+
+            return encryptString;
         }
     }
 }

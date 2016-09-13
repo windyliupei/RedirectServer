@@ -6,7 +6,8 @@
             "type": "coreclr",
             "request": "launch",
             "preLaunchTask": "build",
-            "program": "${workspaceRoot}\\bin\\Debug\\netcoreapp1.0\\DotnetcoreSocket.dll",
+            "program": "${workspaceRoot}\\SocketServer\\bin\\Debug\\netcoreapp1.0\\SocketServer.dll",
+           
             "args": [],
             "cwd": "${workspaceRoot}",
             "externalConsole": false,

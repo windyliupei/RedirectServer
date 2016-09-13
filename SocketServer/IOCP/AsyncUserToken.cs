@@ -1,6 +1,6 @@
 using System.Net.Sockets;
 
-namespace Service
+namespace Service.IOCP
 {
     /// <summary>
     /// 用户对象
