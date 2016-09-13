@@ -2,7 +2,7 @@
    
   "AppSetting": {
     "HostName": "0.0.0.0",
-    "Port": "1024",
+    "Port": "2020",
     "MaxConnections":"30000"
   }
   
